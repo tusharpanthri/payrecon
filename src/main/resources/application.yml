@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: payrecon
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/payrecon}
+    username: ${DB_USER:payrecon}
+    password: ${DB_PASSWORD:payrecon}
+  jpa:
+    # Flyway owns the schema. Hibernate never creates or alters tables.
+    hibernate:
+      ddl-auto: none
+    # Close the DB session when the service method ends, not when the HTTP response ends.
+    # Forces all entity-to-DTO mapping to happen inside @Transactional service methods.
+    open-in-view: false
+  flyway:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+logging:
+  level:
+    # Prints every SQL statement. Useful for spotting N+1 queries while learning.
+    org.hibernate.SQL: debug
